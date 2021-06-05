@@ -58,6 +58,7 @@ def TellTime():
 
 
     # Configure speech synthesis
+    speech_config.speech_synthesis_voice_name = 'en-GB-George'
     speech_synthesizer = speech_sdk.SpeechSynthesizer(speech_config)
 
     # Synthesize spoken output
