@@ -80,6 +80,7 @@ namespace speaking_clock
             string responseText = "The time is " + now.Hour.ToString() + ":" + now.Minute.ToString("D2");
 
             // Configure speech synthesis
+            speechConfig.SpeechSynthesisVoiceName = "en-GB-George";
             using SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(speechConfig);
 
             // Synthesize spoken output
