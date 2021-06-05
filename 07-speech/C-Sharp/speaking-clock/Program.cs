@@ -84,11 +84,19 @@ namespace speaking_clock
             using SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(speechConfig);
 
             // Synthesize spoken output
-            SpeechSynthesisResult speak = await speechSynthesizer.SpeakTextAsync(responseText);
-            if (speak.Reason != ResultReason.SynthesizingAudioCompleted)
-            {
-                Console.WriteLine(speak.Reason);
-            }
+            string responseSsml = $@"
+             <speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='en-US'>
+                 <voice name='en-GB-Susan'>
+                     {responseText}
+                     <break strength='weak'/>
+                     Time to end this lab!
+                 </voice>
+             </speak>";
+             SpeechSynthesisResult speak = await speechSynthesizer.SpeakSsmlAsync(responseSsml);
+             if (speak.Reason != ResultReason.SynthesizingAudioCompleted)
+             {
+                 Console.WriteLine(speak.Reason);
+             }
 
             // Print the response
             Console.WriteLine(responseText);
