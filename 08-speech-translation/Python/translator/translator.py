@@ -31,7 +31,7 @@ def main():
         # Get user input
         targetLanguage = ''
         while targetLanguage != 'quit':
-            targetLanguage = input('\nEnter a target language\n fr = French\n es = Spanish\n hi = Hindi\n Enter anything else to stop\n').lower()
+            targetLanguage = input('\nEnter a target language\n fr = French\n es = Spanish\n hi = Hindi\n tr = Turkish\n Enter anything else to stop\n').lower()
             if targetLanguage in translation_config.target_languages:
                 Translate(targetLanguage)
             else:
@@ -56,7 +56,17 @@ def Translate(targetLanguage):
     print(translation)
 
     # Synthesize translation
-
+    voices = {
+         "fr": "fr-FR-Julie",
+         "es": "es-ES-Laura",
+         "hi": "hi-IN-Kalpana",
+         "tr": "tr-TR-EmelNeural"
+    }
+    speech_config.speech_synthesis_voice_name = voices.get(targetLanguage)
+    speech_synthesizer = speech_sdk.SpeechSynthesizer(speech_config)
+    speak = speech_synthesizer.speak_text_async(translation).get()
+    if speak.reason != speech_sdk.ResultReason.SynthesizingAudioCompleted:
+        print(speak.reason)
 
 
 if __name__ == "__main__":
