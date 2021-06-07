@@ -79,7 +79,21 @@ namespace speech_translation
             Console.WriteLine(translation);
 
             // Synthesize translation
+            var voices = new Dictionary<string, string>
+                 {
+                     ["fr"] = "fr-FR-Julie",
+                     ["es"] = "es-ES-Laura",
+                     ["hi"] = "hi-IN-Kalpana",
+                     ["tr"] = "tr-TR-EmelNeural"
+                 };
 
+            speechConfig.SpeechSynthesisVoiceName = voices[targetLanguage];
+            using SpeechSynthesizer speechSynthesizer = new SpeechSynthesizer(speechConfig);
+            SpeechSynthesisResult speak = await speechSynthesizer.SpeakTextAsync(translation);
+            if (speak.Reason != ResultReason.SynthesizingAudioCompleted)
+            {
+                Console.WriteLine(speak.Reason);
+            }
 
         }
 
